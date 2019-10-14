@@ -1,0 +1,32 @@
+image: python:3.7-slim-buster
+pages:
+  # build html documentation and publish on gitlab pages
+  stage: deploy
+  script:
+    # setup
+    - apt-get update
+    - pip install docopt nbsphinx pipreqs sphinx sphinx-rtd-theme
+    - cd docs
+    - chmod +x conf.py
+
+    # convert docstrings to rst; create html pages
+    - ./conf.py rst html
+
+    # publish using temporary folder to publish all pages at same time
+    - cd ..
+    - mkdir .public
+    - cp -r docs/_build/html/* .public
+    - mv .public public
+  artifacts:
+    paths:
+    - public
+  only:
+    refs:
+      # branches that trigger runner
+      - master
+    changes:
+      # changed files that trigger runner (OPTIONAL - could just trigger on all commits)
+#      - master/**/*
+#      - worker/**/*
+#      - docs/**/*
+#      - .gitlab-ci.yml
