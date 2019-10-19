@@ -22,7 +22,7 @@ params = dict(
 ########## EDIT BELOW THIS LINE ONLY ##########
 
 # run in subprocess so not detected by pipreqs
-params["install_requires"].extend(["nbsphinx", "sphinx", "sphinx-rtd-theme"])
+params["install_requires"].extend(["git", "nbsphinx", "sphinx", "sphinx-rtd-theme"])
 
 # enable command line
 params.update(entry_points={
