@@ -5,6 +5,7 @@ pages:
   script:
     # setup
     - apt-get update
+    - apt-get install git
     - pip install autogen
     - cd docs
 
@@ -23,7 +24,7 @@ pages:
     refs:
       # branches that trigger runner
       - master
-    changes:
+#    changes:
       # changed files that trigger runner (OPTIONAL - could just trigger on all commits)
 #      - master/**/*
 #      - worker/**/*
