@@ -9,11 +9,11 @@ from setuptools import setup
 params = dict(
     name='autogen',
     description='autogen',
-    version='0.0.0',
+    version='0.0.1',
     url='https://gitlab.com/simonm3/autogen.git',
     install_requires=['PyYAML', 'docopt', 'pipreqs',
                       "pywin32;platform_system=='Windows'"],
-    packages=['autogen'],
+    packages=['autogen', 'templates'],
     data_files=[],
     py_modules=[],
     include_package_data=True,
