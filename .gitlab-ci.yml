@@ -5,12 +5,11 @@ pages:
   script:
     # setup
     - apt-get update
-    - pip install docopt nbsphinx pipreqs sphinx sphinx-rtd-theme
+    - pip install autogen
     - cd docs
-    - chmod +x conf.py
 
     # convert docstrings to rst; create html pages
-    - ./conf.py rst html
+    - autogen rst html
 
     # publish using temporary folder to publish all pages at same time
     - cd ..

@@ -42,19 +42,12 @@ except:
 # source
 ########
 
+# todo ignore git excluded
 # ignore these folders
-ignore_folders = ["nbs", "docs", "models", "_rst"
-                                           ".hg", ".svn", ".git", ".tox",
+ignore_folders = ["nbs", "docs", "models", "data",
+                  ".hg", ".svn", ".git", ".tox",
                   "__pycache__",
                   "env", "venv"]
-
-# enable sphinx to import packages as they may not be installed
-packages = []
-for d in [d for d in glob(f"{root}/*") if os.path.isdir(d)]:
-    if os.path.basename(d) in ignore_folders or d in sys.path:
-        continue
-    sys.path.insert(0, d)
-    packages.append(os.path.basename(d))
 
 # mock all imports that are not installed so project packages can be imported without errors
 imports = pipreqs.get_all_imports(root, extra_ignore_dirs=ignore_folders)
@@ -82,16 +75,16 @@ todo_include_todos = True
 ############
 
 extensions = [
-    'sphinx.ext.autodoc',  # automatically include docstrings
+    'sphinx.ext.autodoc',       # source code docstrings
     'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',  # enable todo boxes
+    'sphinx.ext.intersphinx',   # links to other package docs
+    'sphinx.ext.todo',          # enable todo boxes
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',  # insert links to source code
+    'sphinx.ext.viewcode',      # links to source code
     'sphinx.ext.githubpages',
-    'nbsphinx'  # insert views of jupyter notebooks in the docs
+    'nbsphinx'                  # insert views of jupyter notebooks in the docs
 ]
 # maps links to docs for other packages
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
