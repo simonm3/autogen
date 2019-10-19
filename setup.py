@@ -9,7 +9,7 @@ from setuptools import setup
 params = dict(
     name='autogen',
     description='autogen',
-    version='0.0.4',
+    version='0.0.5',
     url='https://gitlab.com/simonm3/autogen.git',
     install_requires=['PyYAML', 'docopt', 'pipreqs',
                       "pywin32;platform_system=='Windows'"],
@@ -22,7 +22,8 @@ params = dict(
 ########## EDIT BELOW THIS LINE ONLY ##########
 
 # run in subprocess so not detected by pipreqs
-params["install_requires"].extend(["git", "nbsphinx", "sphinx", "sphinx-rtd-theme"])
+params["install_requires"].extend(
+    ["git", "nbsphinx", "sphinx", "sphinx-rtd-theme"])
 
 # enable command line
 params.update(entry_points={
