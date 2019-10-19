@@ -13,7 +13,7 @@ from os.path import join
 import sys
 from setuptools import find_packages
 import yaml
-from defaultlog import log
+from .defaultlog import log
 
 TEMPLATES = os.path.abspath(join(__file__, os.pardir, os.pardir, "templates"))
 ignorefolders = ["nbs", "docs", "models", "data", "env", "venv"]
