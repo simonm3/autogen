@@ -49,7 +49,7 @@ ignore_folders = ["nbs", "docs", "models", "data",
                   "__pycache__",
                   "env", "venv"]
 gitfiles = subprocess.run(["git", "ls-files"], check=True, capture_output=True, text=True).stdout.splitlines()
-allfiles = glob("**", recursive=True).replace("\\", "/")
+allfiles = [f.replace("\\", "/") for f in glob("**", recursive=True) + glob(".*", recursive=True)]
 notgit = set(allfiles) - set(gitfiles)
 exclude_patterns = list(notgit) + ignore_folders
 
