@@ -112,9 +112,8 @@ def make_html():
     docs = opts["--docs"]
     shutil.rmtree(f"{docs}/_build", ignore_errors=True)
 
-    cmd = shlex.split(f"sphinx-build -M html {docs} {docs}/_build")
-    log.info(os.getcwd())
-    log.info(cmd)
+    cmd = shlex.split(f"sphinx-build -M html . _build")
+    os.chdir(docs)
     subprocess.run(cmd)
 
 
