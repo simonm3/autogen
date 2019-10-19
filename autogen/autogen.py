@@ -84,7 +84,7 @@ def make_docs():
 def make_rst():
     docs = opts["--docs"]
     projects = opts.get("--projects")
-    shutil.rmtree("_rst", ignore_errors=True)
+    shutil.rmtree(f"{docs}/_rst", ignore_errors=True)
 
     # exclude folders that are not in git
     gitfiles = subprocess.run(["git", "ls-files"], check=True, capture_output=True, text=True).stdout.splitlines()
@@ -110,9 +110,11 @@ def make_rst():
 
 def make_html():
     docs = opts["--docs"]
-    shutil.rmtree("_build", ignore_errors=True)
+    shutil.rmtree(f"{docs}/_build", ignore_errors=True)
 
     cmd = shlex.split(f"sphinx-build -M html {docs} {docs}/_build")
+    log.info(os.getcwd())
+    log.info(cmd)
     subprocess.run(cmd)
 
 
