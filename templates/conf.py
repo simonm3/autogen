@@ -12,6 +12,7 @@ from pipreqs import pipreqs
 import importlib
 from glob import glob
 import os
+import subprocess
 
 #####################
 # Project information
@@ -42,12 +43,15 @@ except:
 # source
 ########
 
-# todo ignore git excluded
 # ignore these folders
 ignore_folders = ["nbs", "docs", "models", "data",
                   ".hg", ".svn", ".git", ".tox",
                   "__pycache__",
                   "env", "venv"]
+gitfiles = subprocess.run(["git", "ls-files"], check=True, capture_output=True, text=True).stdout.splitlines()
+allfiles = glob("**", recursive=True).replace("\\", "/")
+notgit = set(allfiles) - set(gitfiles)
+exclude_patterns = list(notgit) + ignore_folders
 
 # mock all imports that are not installed so project packages can be imported without errors
 imports = pipreqs.get_all_imports(root, extra_ignore_dirs=ignore_folders)
