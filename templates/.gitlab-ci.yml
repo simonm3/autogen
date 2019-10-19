@@ -5,6 +5,7 @@ pages:
   script:
     # setup
     - apt-get update
+    - apt-get install git
     - pip install autogen
     - cd docs
 
