@@ -15,6 +15,7 @@ params = dict(
     packages=['autogen', 'templates'],
     package_data={'': ['docs/index.rst', 'templates/.gitlab-ci.yml',
                        'templates/index.rst', 'version']},
+    include_package_data=True,
     py_modules=[],
     scripts=None)
 
