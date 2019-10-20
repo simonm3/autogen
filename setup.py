@@ -13,8 +13,7 @@ params = dict(
     url='https://gitlab.com/simonm3/autogen.git',
     install_requires=['pipreqs', "pywin32;platform_system=='Windows'"],
     packages=['autogen', 'templates'],
-    package_data={'': ['docs/index.rst', 'templates/.gitlab-ci.yml',
-                       'templates/index.rst', 'version']},
+    package_data={'autogen': [], 'templates': ['.gitlab-ci.yml', 'index.rst']},
     include_package_data=True,
     py_modules=[],
     scripts=None)
