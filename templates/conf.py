@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+""" this is a generic conf.py that uses sensible defaults for most projects
+
+add different or additional options to moreconf.py which is imported at the bottom of this file
+"""
 import sys
 from os.path import join, basename
 from datetime import datetime
@@ -6,13 +11,12 @@ from datetime import datetime
 try:
     import win32api
 except:
-    # not available on linux
+    # windows only
     pass
 from pipreqs import pipreqs
 import importlib
 from glob import glob
 import os
-import subprocess
 
 #####################
 # Project information
@@ -43,21 +47,12 @@ except:
 # source
 ########
 
-# ignore these folders
-ignore_folders = ["nbs", "docs", "models", "data",
-                  ".hg", ".svn", ".git", ".tox",
-                  "__pycache__",
-                  "env", "venv"]
-gitfiles = subprocess.run(["git", "ls-files"], check=True, capture_output=True, text=True).stdout.splitlines()
-allfiles = [f.replace("\\", "/") for f in glob("**", recursive=True) + glob(".*", recursive=True)]
-notgit = set(allfiles) - set(gitfiles)
-exclude_patterns = list(notgit) + ignore_folders
-
-# mock all imports that are not installed so project packages can be imported without errors
-imports = pipreqs.get_all_imports(root, extra_ignore_dirs=ignore_folders)
+# mock all imports that are not installed so packages can be imported without errors
+# e.g. a package that runs in a container may not have dependencies installed locally
+imports = pipreqs.get_all_imports(root)
 autodoc_mock_imports = [f for f in imports if importlib.util.find_spec(f) is None]
 
-# concatenates docstrings for class and __init__
+# concatenate docstrings for class and __init__
 autoclass_content = 'both'
 
 ########
@@ -80,15 +75,18 @@ todo_include_todos = True
 
 extensions = [
     'sphinx.ext.autodoc',       # source code docstrings
-    'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',   # links to other package docs
-    'sphinx.ext.todo',          # enable todo boxes
-    'sphinx.ext.coverage',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.ifconfig',
+    'sphinx.ext.todo',          # enable todo_boxes
+    'sphinx.ext.coverage',      # report docstring coverage
     'sphinx.ext.viewcode',      # links to source code
-    'sphinx.ext.githubpages',
+    'sphinx.ext.githubpages',   # minor changes to enable githubpages
     'nbsphinx'                  # insert views of jupyter notebooks in the docs
 ]
 # maps links to docs for other packages
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
+
+# more config options can be added in moreconf.py
+try:
+    from .moreconf import *
+except ModuleNotFoundError:
+    pass

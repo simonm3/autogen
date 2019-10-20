@@ -11,12 +11,11 @@ params = dict(
     description='autogen',
     version='0.0.16',
     url='https://gitlab.com/simonm3/autogen.git',
-    install_requires=['PyYAML', 'docopt', 'pipreqs',
-                      "pywin32;platform_system=='Windows'"],
+    install_requires=['pipreqs', "pywin32;platform_system=='Windows'"],
     packages=['autogen', 'templates'],
-    data_files=[],
+    package_data={'': ['docs/index.rst', 'templates/.gitlab-ci.yml',
+                       'templates/index.rst', 'version']},
     py_modules=[],
-    include_package_data=True,
     scripts=None)
 
 ########## EDIT BELOW THIS LINE ONLY ##########

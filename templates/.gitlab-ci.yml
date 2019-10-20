@@ -22,8 +22,8 @@ pages:
     refs:
       # branches that trigger runner
       - master
+     # uncomment to trigger runner on changes to specific files only. default is trigger every commit.
 #    changes:
-      # changed files that trigger runner (OPTIONAL - could just trigger on all commits)
 #      - master/**/*
 #      - worker/**/*
 #      - docs/**/*

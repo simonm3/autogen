@@ -13,10 +13,10 @@ from os.path import join
 import sys
 from setuptools import find_packages
 import yaml
+from glob import glob
 from .defaultlog import log
 
 TEMPLATES = os.path.abspath(join(__file__, os.pardir, os.pardir, "templates"))
-ignorefolders = ["nbs", "docs", "models", "data", "env", "venv"]
 opts = None
 
 def main():
@@ -43,7 +43,7 @@ def main():
     log.info(opts)
 
     # run from root
-    root = get_project_root()
+    root = get_root()
     if not root:
         log.error("must be run inside a git repo")
         sys.exit()
@@ -86,27 +86,26 @@ def make_rst():
     projects = opts.get("--projects")
     shutil.rmtree(f"{docs}/_rst", ignore_errors=True)
 
-    # exclude folders that are not in git
+    # only look at source files controlled by git
     gitfiles = subprocess.run(["git", "ls-files"], check=True, capture_output=True, text=True).stdout.splitlines()
-    gitfolders = [d[:d.rfind("/")] for d in gitfiles if d.find("/") >= 0]
-    allfolders = [d[0].replace(os.path.sep, "/")[2:] for d in os.walk(".")]
-    excluded = list(set(allfolders) - set(gitfolders))
-    excluded = excluded + ignorefolders
-    excluded.remove("")
+    allfiles = [f.replace("\\", "/") for f in glob("**", recursive=True) if os.path.isfile(f)]
+    nongitfiles = set(allfiles) - set(gitfiles)
 
-    # get packages
-    packages = []
     if not projects:
         projects = "."
     for project in projects.split(","):
-        # top level packages
-        packages.extend([p for p in find_packages(project) if p.find(".") < 0 and p not in excluded])
-        if os.path.abspath(project) not in sys.path:
-            sys.path.insert(0, project)
+        project_root = os.path.abspath(project)
+        # if not installed then add to path
+        if project_root not in sys.path:
+            sys.path.insert(0, project_root)
 
-    for package in packages:
-        cmd = shlex.split(f"sphinx-apidoc -f -o {docs}/_rst {package} {excluded}")
-        subprocess.run(cmd)
+        # get top level packages that are git controlled
+        gitfolders = set([os.path.dirname(f) for f in gitfiles])
+        packages = [p for p in find_packages(project_root) if p.find(".") < 0 and p in gitfolders]
+        for package in packages:
+            # exclude non-git files
+            cmd = shlex.split(f"sphinx-apidoc -f -o {docs}/_rst {package} {nongitfiles}")
+            subprocess.run(cmd)
 
 def make_html():
     docs = opts["--docs"]
@@ -116,7 +115,7 @@ def make_html():
     subprocess.run(cmd)
 
 
-def get_project_root(path=None):
+def get_root(path=None):
     """ return project root folder where .git is located; or False if not in a git repo """
     if not path:
         path = os.getcwd()
