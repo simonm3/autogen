@@ -10,8 +10,10 @@ def normpath(path):
     """ return normalised path """
     return path.replace("\\", "/")
 
-def subprocess_run(cmd):
+def subprocess_run(cmd, verbose=True):
     """ subprocess_run command string and return output """
+    if verbose:
+        log.info(cmd)
     if isinstance(cmd, str):
         cmd = shlex.split(cmd)
     result = subprocess.run(cmd, text=True, check=True, capture_output=True)

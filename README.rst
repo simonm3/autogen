@@ -1,7 +1,7 @@
-Overview
-========
+Automate development tasks
+==========================
 
-This automates development tasks - creates setup.py, builds documentation, manages releases.
+This creates setup.py, builds documentation, manages releases.
 
 Installation
 ============

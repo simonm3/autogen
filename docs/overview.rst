@@ -1,5 +1,5 @@
-Overview
-========
+Automate development tasks
+==========================
 
 This automates development tasks:
 

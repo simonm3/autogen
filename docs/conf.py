@@ -17,6 +17,8 @@ from pipreqs import pipreqs
 import importlib
 from glob import glob
 import os
+import logging
+log = logging.getLogger()
 
 #####################
 # Project information
@@ -45,8 +47,14 @@ except:
 
 # mock all imports that are not installed so packages can be imported without errors
 # e.g. a package that subprocess_run in a container may not have dependencies installed locally
-imports = pipreqs.get_all_imports(root)
-autodoc_mock_imports = [f for f in imports if importlib.util.find_spec(f) is None]
+allimports = []
+for folder in os.listdir(".."):
+    try:
+        imports = pipreqs.get_all_imports(f"../{folder}")
+        allimports.extend(imports)
+    except SyntaxError:
+        log.warning(f"failed to mock imports in {folder}")
+autodoc_mock_imports = [f for f in set(allimports) if importlib.util.find_spec(f) is None]
 
 ########
 # layout
@@ -81,7 +89,8 @@ extensions = [
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
 # more config options can be added in confplus.py
+sys.path.insert(0, ".")
 try:
-    from .confplus import *
+    from confplus import *
 except KeyError:
     pass
