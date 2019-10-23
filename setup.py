@@ -8,8 +8,8 @@ from setuptools import setup
 
 params = dict(
     name='autogen',
-    description='Overview',
-    version='0.1.0',
+    description='Automate development tasks',
+    version='0.1.1',
     url='https://gitlab.com/simonm3/autogen.git',
     install_requires=['PyYAML', 'autopep8', 'docopt',
                       'pipreqs', "pywin32;platform_system=='Windows'"],
