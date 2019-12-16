@@ -69,8 +69,8 @@ html_theme = 'sphinx_rtd_theme'
 # includes the todos in the docs
 todo_include_todos = True
 
-# setup.py not needed in docs
-exclude_patterns = ["_rst/setup.rst"]
+# not needed in docs
+exclude_patterns = ["_rst/setup.rst", ".ipynb_checkpoints/*"]
 
 ############
 # extensions

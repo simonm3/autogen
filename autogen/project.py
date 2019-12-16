@@ -16,6 +16,8 @@ class Project:
         gitfolders = [os.path.dirname(f) for f in gitfiles]
         allfolders = [normpath(f) for f in glob("**", recursive=True) if os.path.isdir(f)]
         excludedfolders = set(allfolders) - set(gitfolders)
+        excludedfolders.add("nbs")
+        excludedfolders.add("scripts")
         try:
             excludedfolders.remove("")
         except:
@@ -180,10 +182,11 @@ class Project:
         """ all packages identifies by pipreqs """
 
         # create requirements.txt. force overwrite.
-        command = ["pipreqs", ".", "--force"]
+        command = "pipreqs . --force"
         if self.excludedfolders:
             # pipreqs can only exclude whole folders not files
-            command.extend(["--ignore", self.excludedfolders])
+            excludedfolders =  ",".join(self.excludedfolders)
+            command = f"{command} --ignore {excludedfolders}"
         subprocess_run(command)
 
         # remove version pinning
