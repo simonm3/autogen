@@ -62,7 +62,7 @@ def main():
 
     # release = update version; recreate setup.py; release to git; release to pypi
     if args["--major"] or args["--minor"] or args["--patch"]:
-        if subprocess_run("git status --porcelain"):
+        if subprocess_run("git status --porcelain --untracked-files no"):
             log.error("git commit all changes before release")
             return
         if args["--major"]:
