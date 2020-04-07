@@ -1,6 +1,2 @@
-autopep8==1.4.4
-setuptools==40.8.0
-pywin32==224
-docopt==0.6.2
 pipreqs==0.4.9
-PyYAML==5.1.2
+pywin32==224
