@@ -13,21 +13,8 @@ class Project:
     """ a project for which we want to take actions such as generate a setup.py; publish docs; ormake a release """
 
     def __init__(self):
-        # exclude folders and files not in git
-        gitfiles = subprocess_run("git ls-files").splitlines()
-        gitfolders = [os.path.dirname(f) for f in gitfiles]
-        allfolders = [
-            normpath(f) for f in glob("**", recursive=True) if os.path.isdir(f)
-        ]
-        excludedfolders = set(allfolders) - set(gitfolders)
-        excludedfolders.add("nbs")
-        excludedfolders.add("scripts")
-        try:
-            excludedfolders.remove("")
-        except:
-            pass
-        self.gitfiles = gitfiles
-        self.excludedfolders = excludedfolders
+        # exclude files not in git
+        self.gitfiles = subprocess_run("git ls-files").splitlines()
 
     def defaults(self):
         """ default params for setup """
@@ -184,18 +171,22 @@ class Project:
 
     def packages(self):
         """ packages in git """
-        exclude = [f.replace("/", ".") for f in self.excludedfolders]
-        return find_packages(exclude=exclude)
+        return find_packages(exclude=["_*"])
 
     def install_requires(self):
         """ all packages identifies by pipreqs """
 
         # create requirements.txt. force overwrite.
-        command = "pipreqs . --force"
-        if self.excludedfolders:
-            # pipreqs can only exclude whole folders not files
-            excludedfolders = ",".join(self.excludedfolders)
-            command = f"{command} --ignore {excludedfolders}"
+        folder = os.getcwd().replace("\\", "/")
+        command = f"pipreqs {folder} --force"
+
+        # ignore top level folders that are not packages (--ignore only looks at top level)
+        packages = [p.split(".")[0] for p in find_packages() if not p.startswith("_")]
+        folders = [f for f in os.listdir() if os.path.isdir(f)]
+        excluded = list(set(folders)-set(packages))
+        if excluded:
+            excluded = ",".join(excluded)
+            command = f"{command} --ignore {excluded}"
         subprocess_run(command)
 
         # remove version pinning
