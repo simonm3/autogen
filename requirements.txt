@@ -1,2 +1,6 @@
-pipreqs==0.4.9
+pipreqs.egg==info
+docopt==0.6.2
 pywin32==224
+autopep8==1.4.4
+pipreqs==0.4.10
+PyYAML==5.3.1

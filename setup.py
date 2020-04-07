@@ -9,9 +9,10 @@ from setuptools import setup
 params = dict(
     name='autogen',
     description='Automate development tasks',
-    version='1.0.2',
+    version='1.0.3',
     url='https://gitlab.com/simonm3/autogen.git',
-    install_requires=['pipreqs', "pywin32;platform_system=='Windows'"],
+    install_requires=['PyYAML', 'autopep8', 'docopt',
+                      'pipreqs', "pywin32;platform_system=='Windows'"],
     packages=['autogen', 'templates'],
     package_data={'templates': [
         '.gitlab-ci.yml', 'example_image.jpg', 'example_page.rst', 'index.rst', 'Makefile']},
