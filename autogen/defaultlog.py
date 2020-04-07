@@ -1,6 +1,7 @@
 import logging
 from logging import StreamHandler, Formatter, getLogger
 
+
 def getlog():
     """
     return configured logger
@@ -8,8 +9,10 @@ def getlog():
     Usage:
         from defaultlog import log
     """
-    fmt = Formatter(fmt='[%(name)s:%(levelname)s]:%(message)s (%(filename)s:%(lineno)s, time=%(asctime)s)',
-                    datefmt='%b-%d %H:%M')
+    fmt = Formatter(
+        fmt="[%(name)s:%(levelname)s]:%(message)s (%(filename)s:%(lineno)s, time=%(asctime)s)",
+        datefmt="%b-%d %H:%M",
+    )
 
     # stream
     stream = StreamHandler()
@@ -24,5 +27,6 @@ def getlog():
     log.handlers = [stream]
     log.setLevel(logging.INFO)
     return log
+
 
 log = getlog()

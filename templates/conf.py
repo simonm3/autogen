@@ -53,10 +53,10 @@ autodoc_mock_imports = [f for f in imports if importlib.util.find_spec(f) is Non
 ########
 
 # concatenate docstrings for class and __init__
-autoclass_content = 'both'
+autoclass_content = "both"
 
 # same as python. better than the default theme.
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
 
 # includes the todos in the docs
 todo_include_todos = True
@@ -69,16 +69,16 @@ exclude_patterns = ["_rst/setup.rst"]
 ############
 
 extensions = [
-    'sphinx.ext.autodoc',       # source code docstrings
-    'sphinx.ext.intersphinx',   # links to other package docs
-    'sphinx.ext.todo',          # enable todo_boxes
-    'sphinx.ext.coverage',      # report docstring coverage
-    'sphinx.ext.viewcode',      # link to source code
-    'sphinx.ext.githubpages',   # enable githubpages
-    'nbsphinx'                  # insert views of jupyter notebooks in the docs
+    "sphinx.ext.autodoc",  # source code docstrings
+    "sphinx.ext.intersphinx",  # links to other package docs
+    "sphinx.ext.todo",  # enable todo_boxes
+    "sphinx.ext.coverage",  # report docstring coverage
+    "sphinx.ext.viewcode",  # link to source code
+    "sphinx.ext.githubpages",  # enable githubpages
+    "nbsphinx",  # insert views of jupyter notebooks in the docs
 ]
 # maps links to docs for other packages
-intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
 # more config options can be added in confplus.py
 try:

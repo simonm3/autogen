@@ -17,19 +17,20 @@ from .defaultlog import log
 
 TEMPLATES = os.path.abspath(join(__file__, os.pardir, os.pardir, "templates"))
 
+
 def main():
     """
     Tool to configure python projects
 
-    Usage:
-        autogen -d|-s|-M|-m|-p
+    Usage::
+        autogen [-s|-d|-M|-m|-p]
 
-    options:
+    options::
         -h, --help     Display this help message
         -v, --version  Show version and exit
 
+        -s --setup     Generate setup.py only (default)
         -d, --docs     Generate sphinx docs
-        -s, --setup    Generate setup.py
         -M,--major     Publish major release
         -m,--minor     Publish minor release
         -p,--patch     Publish patch release
@@ -54,11 +55,7 @@ def main():
         make_docs()
         return
 
-    # setup.py
     p = Project()
-    if args["--setup"]:
-        p.create_setup()
-        return
 
     # release = update version; recreate setup.py; release to git; release to pypi
     if args["--major"] or args["--minor"] or args["--patch"]:
@@ -71,7 +68,11 @@ def main():
             p.update_version(1)
         elif args["--patch"]:
             p.update_version(2)
+        p.create_setup()
         p.release()
+    else:
+        p.create_setup()
+
 
 def make_docs():
     """ initialise everything needed for generating docs and publishing on gitlab pages automatically """
@@ -79,7 +80,14 @@ def make_docs():
     os.makedirs(docs, exist_ok=True)
 
     # create files if they don't exist
-    files = ["index.rst", "conf.py", "confplus.py", "makefile", "example_page.rst", "example_image.jpg"]
+    files = [
+        "index.rst",
+        "conf.py",
+        "confplus.py",
+        "makefile",
+        "example_page.rst",
+        "example_image.jpg",
+    ]
     exists = [f for f in files if os.path.exists(f"{docs}/{f}")]
     created = set(files) - set(exists)
     if exists:
@@ -104,6 +112,7 @@ def make_docs():
     else:
         shutil.copy(f"{TEMPLATES}/.gitlab-ci.yml", ".gitlab-ci.yml")
         log.info(f"gitlab-ci created")
+
 
 if __name__ == "__main__":
     main()
