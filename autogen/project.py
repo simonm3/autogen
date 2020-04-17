@@ -177,8 +177,7 @@ class Project:
         """ all packages identifies by pipreqs """
 
         # create requirements.txt. force overwrite.
-        folder = os.getcwd().replace("\\", "/")
-        command = f"pipreqs {folder} --force"
+        command = f"pipreqs . --force"
 
         # ignore top level folders that are not packages (--ignore only looks at top level)
         packages = [p.split(".")[0] for p in find_packages() if not p.startswith("_")]
