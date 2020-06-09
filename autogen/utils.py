@@ -1,11 +1,17 @@
-import subprocess
-import shlex
+import ast
+import logging
 import os
+import shlex
+import site
+import subprocess
+from importlib.util import find_spec
 from os.path import join
 
-import logging
+from setuptools import find_packages
 
 log = logging.getLogger()
+
+HERE = os.path.dirname(__file__)
 
 
 def normpath(path):
@@ -23,16 +29,13 @@ def subprocess_run(cmd, verbose=True):
     return result.stdout
 
 
-def get_root(path=None):
-    """ return folder where .git is located; or False if not in a git repo """
-    if not path:
-        path = os.getcwd()
-    while True:
-        if ".git" in os.listdir(path):
-            return path
-        if path == os.path.dirname(path):
-            return False
-        path = os.path.dirname(path)
+def import2pypi(imports):
+    """ return dict of import2pypi name """
+    f = open(f"{HERE}/import2pypi.txt")
+    rows = [l.lower().split(":") for l in f.read().splitlines()]
+    import2pypi = {k: v for k, v in rows}
+    pypi = [import2pypi.get(i, i).lower() for i in imports]
+    return sorted(pypi)
 
 
 def git2docker():

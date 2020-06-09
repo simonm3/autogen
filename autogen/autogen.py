@@ -4,18 +4,18 @@ try:
 except:
     # not available on linux
     pass
-from docopt import docopt
-import shutil
 import os
-from os.path import join
+import shutil
 import sys
-from pkg_resources import get_distribution, DistributionNotFound
-import yaml
-from .project import Project, subprocess_run
-from .utils import get_root
-from .defaultlog import log
+from os.path import join
+from pathlib import Path
 
-TEMPLATES = os.path.abspath(join(__file__, os.pardir, os.pardir, "templates"))
+import yaml
+from docopt import docopt
+from pkg_resources import DistributionNotFound, get_distribution
+
+from .defaultlog import log
+from .project import Project, subprocess_run
 
 
 def main():
@@ -44,18 +44,12 @@ def main():
     args = docopt(main.__doc__, version=version)
     log.info(args)
 
-    root = get_root()
-    if not root:
-        log.error("must be run inside a git repo")
-        sys.exit()
+    p = Project()
 
     # docs
     if args["--docs"]:
-        os.chdir(root)
-        make_docs()
+        p.create_docs()
         return
-
-    p = Project()
 
     # release = update version; recreate setup.py; release to git; release to pypi
     if args["--major"] or args["--minor"] or args["--patch"]:
@@ -72,46 +66,6 @@ def main():
         p.release()
     else:
         p.create_setup()
-
-
-def make_docs():
-    """ initialise everything needed for generating docs and publishing on gitlab pages automatically """
-    docs = "docs"
-    os.makedirs(docs, exist_ok=True)
-
-    # create files if they don't exist
-    files = [
-        "index.rst",
-        "conf.py",
-        "confplus.py",
-        "makefile",
-        "example_page.rst",
-        "example_image.jpg",
-    ]
-    exists = [f for f in files if os.path.exists(f"{docs}/{f}")]
-    created = set(files) - set(exists)
-    if exists:
-        exists = ", ".join(exists)
-        log.warning(f"already exists: {exists}")
-    if created:
-        for f in created:
-            shutil.copy(f"{TEMPLATES}/{f}", docs)
-        created = ", ".join(created)
-        log.info(f"created: {created}")
-
-    # update or copy gitlab CI
-    with open(f"{TEMPLATES}/.gitlab-ci.yml") as f:
-        pages_ci = yaml.safe_load(f)
-    if os.path.exists(".gitlab-ci.yml"):
-        with open(".gitlab-ci.yml") as f:
-            ci = yaml.safe_load(f)
-        if "pages" not in ci:
-            ci["pages"] = pages_ci["pages"]
-            log.info(f"gitlab-ci updated")
-        log.warning(f"gitlab-ci already includes pages")
-    else:
-        shutil.copy(f"{TEMPLATES}/.gitlab-ci.yml", ".gitlab-ci.yml")
-        log.info(f"gitlab-ci created")
 
 
 if __name__ == "__main__":

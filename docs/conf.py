@@ -4,20 +4,21 @@
 
 no need to change this file. override in confplus.py which is imported at the bottom of this file
 """
+import importlib
+import logging
+import os
 import sys
-from os.path import join, basename
 from datetime import datetime
+from glob import glob
+from os.path import basename, join
+
+from pipreqs import pipreqs
 
 try:
     import win32api
 except:
     # windows only
     pass
-from pipreqs import pipreqs
-import importlib
-from glob import glob
-import os
-import logging
 
 log = logging.getLogger()
 
@@ -90,10 +91,3 @@ extensions = [
 ]
 # maps links to docs for other packages
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
-
-# more config options can be added in confplus.py
-sys.path.insert(0, ".")
-try:
-    from confplus import *
-except KeyError:
-    pass

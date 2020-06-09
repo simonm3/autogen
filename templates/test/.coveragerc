@@ -1,0 +1,9 @@
+[run]
+concurrency=multiprocessing
+parallel=True
+omit=*/*/test/*
+
+[report]
+show_missing=True
+sort=Miss
+skip_covered=True

@@ -11,12 +11,7 @@ pages:
     # make docs
     - cd docs
     - make
-
-    # publish using temporary folder to publish all pages at same time
-    - cd ..
-    - mkdir .public
-    - cp -r docs/_build/html/* .public
-    - mv .public public
+    - mv -r docs/_build/html/* public
   artifacts:
     paths:
     - public
