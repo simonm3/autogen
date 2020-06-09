@@ -29,6 +29,17 @@ def subprocess_run(cmd, verbose=True):
     return result.stdout
 
 
+def get_user():
+    """ return current user name """
+    try:
+        import win32api
+
+        return win32api.GetUserNameEx(3)
+    except:
+        # gitlab CI full name of user that started the job
+        return os.environ.get("GITLAB_USER_NAME", "")
+
+
 def import2pypi(imports):
     """ return dict of import2pypi name """
     f = open(f"{HERE}/import2pypi.txt")
