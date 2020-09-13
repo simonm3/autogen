@@ -1,93 +1,48 @@
-#!/usr/bin/env python
-
-""" this is a generic conf.py that uses sensible defaults for most projects
-
-no need to change this file. override in confplus.py which is imported at the bottom of this file
+""" default sphinx settings
 """
-import importlib
-import logging
 import os
-import sys
+import re
 from datetime import datetime
 from glob import glob
-from os.path import basename, join
+from os.path import join
 
-from pipreqs import pipreqs
+from autogen import Project, utils
 
-try:
-    import win32api
-except:
-    # windows only
-    pass
 
-log = logging.getLogger()
+def clean_rst():
+    """ cleans up rst before sphinx.
+    removes module hierarchy and extra headers
+    """
+    pattern = r"((?:[a-zA-Z0-9\_]*[.])*([a-zA-Z0-9\_]+) (package|module))"
+    for file in glob("_rst/*"):
+        with open(file) as f:
+            content = f.read()
+        content = re.sub(pattern, r"\g<2>", content)
+        content = content.replace(f"Submodules\n----------\n\n", "")
+        content = content.replace("Module contents\n---------------\n\n", "")
+        with open(file, "w") as f:
+            f.write(content)
+    os.remove("_rst/modules.rst")
 
-#####################
-# Project information
-#####################
 
-# author from username
-try:
-    # windows full name
-    author = win32api.GetUserNameEx(3)
-except:
-    # gitlab CI full name of user that started the job
-    author = os.environ.get("GITLAB_USER_NAME", "")
+clean_rst()
 
-# project name from root folder
+# user
+author = utils.get_user()
 copyright = ", ".join([str(datetime.now().year), author])
-root = os.path.abspath(join(__file__, os.pardir, os.pardir))
-project = basename(root)
 
-# version from first <version.py>.__version__
-try:
-    versionfiles = glob(f"{root}/**/version.py", recursive=True)
-    sys.path.insert(0, os.path.dirname(versionfiles[0]))
-    version = importlib.__import__("version").__version__
-except:
-    version = "latest"
+# project
+p = Project()
+project = p.name()
+version = p.version()
+# mock missing imports so sphinx can create docs without installing (e.g. for source that runs in a container)
+_, _, autodoc_mock_imports = p.imports()
 
-# mock all imports that are not installed so packages can be imported without errors
-# e.g. a package that subprocess_run in a container may not have dependencies installed locally
-allimports = []
-for folder in os.listdir(".."):
-    try:
-        imports = pipreqs.get_all_imports(f"../{folder}")
-        allimports.extend(imports)
-    except SyntaxError:
-        log.warning(f"failed to mock imports in {folder}")
-autodoc_mock_imports = [
-    f for f in set(allimports) if importlib.util.find_spec(f) is None
-]
-
-########
-# layout
-########
-
-# concatenate docstrings for class and __init__
+# format
 autoclass_content = "both"
-
-# same as python. better than the default theme.
 html_theme = "sphinx_rtd_theme"
-
-# includes the todos in the docs
-todo_include_todos = True
-
-# not needed in docs
-exclude_patterns = ["_rst/setup.rst", ".ipynb_checkpoints/*"]
-
-############
-# extensions
-############
-
 extensions = [
     "sphinx.ext.autodoc",  # source code docstrings
-    "sphinx.ext.intersphinx",  # links to other package docs
-    "sphinx.ext.todo",  # enable todo_boxes
-    "sphinx.ext.coverage",  # report docstring coverage
     "sphinx.ext.viewcode",  # link to source code
-    "sphinx.ext.githubpages",  # enable githubpages
     "nbsphinx",  # insert views of jupyter notebooks in the docs
 ]
-# maps links to docs for other packages
-intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
