@@ -1,7 +1,7 @@
 skimage:scikit_image
-fs_s3fs:fs-s3fs
-pytest_cov:pytest-cov
 pkg_resources:setuptools
+win32api:pypiwin32
+newspaper:newspaper3k
 :
 AG_fft_tools:agpy
 ANSI:pexpect

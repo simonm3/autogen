@@ -237,7 +237,7 @@ class Project:
     def install_requires(self):
         """ return pypi names of imports """
         user, _, missing = self.imports()
-        return set(utils.import2pypi(sorted(user + missing)))
+        return list(set(utils.import2pypi(sorted(user + missing))))
 
     def imports(self):
         """ get imports split into categories
