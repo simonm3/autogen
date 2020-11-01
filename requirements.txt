@@ -1,5 +1,5 @@
-PyYAML==5.3
-setuptools==45.2.0.post20200210
+pypiwin32==223
 docopt==0.6.2
 autopep8==1.4.4
-pypiwin32==223
+PyYAML==5.3
+setuptools==45.2.0.post20200210
