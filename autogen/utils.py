@@ -25,7 +25,9 @@ def subprocess_run(cmd, verbose=True):
         log.info(cmd)
     if isinstance(cmd, str):
         cmd = shlex.split(cmd)
-    result = subprocess.run(cmd, text=True, check=True, capture_output=True)
+    result = subprocess.run(
+        cmd, universal_newlines=True, check=True, capture_output=True
+    )
     return result.stdout
 
 
@@ -43,9 +45,9 @@ def get_user():
 def import2pypi(imports):
     """ return dict of import2pypi name """
     f = open(f"{HERE}/import2pypi.txt")
-    rows = [l.lower().split(":") for l in f.read().splitlines()]
+    rows = [l.split(":") for l in f.read().splitlines()]
     import2pypi = {k: v for k, v in rows}
-    pypi = [import2pypi.get(i, i).lower() for i in imports]
+    pypi = [import2pypi.get(i, i) for i in imports]
     return sorted(pypi)
 
 

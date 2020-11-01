@@ -1,3 +1,4 @@
+cv2:opencv_python
 skimage:scikit_image
 pkg_resources:setuptools
 win32api:pypiwin32

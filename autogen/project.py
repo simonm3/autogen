@@ -3,6 +3,7 @@ import logging
 import os
 import shutil
 import site
+import sys
 from glob import glob
 from importlib.util import find_spec
 from pathlib import Path
@@ -15,6 +16,9 @@ from . import utils
 from .utils import subprocess_run
 
 log = logging.getLogger()
+
+# if executed via script then cwd is no longer first
+sys.path.insert(0, os.getcwd())
 
 
 class Project:

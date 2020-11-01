@@ -50,7 +50,6 @@ it exists:
     File               Description
     =================  ===================================================
     conf.py            generic settings that work for most projects
-    confplus.py        in case you do want to change any settings!
     index.rst          a draft home page for you to edit
     example_page.rst   an example content page for you to edit
     example_image.jpg  an example image inserted on the example page

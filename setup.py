@@ -9,10 +9,10 @@ from setuptools import setup
 params = dict(
     name='autogen',
     description='Automate development tasks',
-    version='1.0.3',
+    version='1.0.4',
     url='https://gitlab.com/simonm3/autogen.git',
-    install_requires=['setuptools', 'pyyaml',
-                      'pypiwin32', 'autopep8', 'docopt'],
+    install_requires=['PyYAML', 'setuptools',
+                      'docopt', 'autopep8', 'pypiwin32'],
     packages=['autogen'],
     package_data={'autogen': ['import2pypi.txt']},
     include_package_data=True,
