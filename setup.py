@@ -9,10 +9,10 @@ from setuptools import setup
 params = dict(
     name='autogen',
     description='Automate development tasks',
-    version='1.0.10',
+    version='1.0.11',
     url='https://gitlab.com/simonm3/autogen.git',
-    install_requires=['PyYAML', 'setuptools',
-                      'docopt', 'pypiwin32', 'autopep8'],
+    install_requires=['autopep8', 'PyYAML',
+                      'setuptools', 'docopt', 'pypiwin32'],
     packages=['autogen'],
     package_data={'autogen': ['import2pypi.txt']},
     include_package_data=True,
@@ -20,6 +20,10 @@ params = dict(
     scripts=None)
 
 ########## EDIT BELOW THIS LINE ONLY ##########
+
+# prevent vscode moving this to top
+if True:
+    import sys
 
 if sys.platform != "win32":
     print("warning. must install pypiwin32")
