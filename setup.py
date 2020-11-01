@@ -4,16 +4,15 @@ Please edit the marked area only. Other areas will be
 overwritten when autogen is rerun.
 """
 
-import sys
 from setuptools import setup
 
 params = dict(
     name='autogen',
     description='Automate development tasks',
-    version='1.0.9',
+    version='1.0.10',
     url='https://gitlab.com/simonm3/autogen.git',
-    install_requires=['docopt', 'PyYAML',
-                      'autopep8', 'pypiwin32', 'setuptools'],
+    install_requires=['PyYAML', 'setuptools',
+                      'docopt', 'pypiwin32', 'autopep8'],
     packages=['autogen'],
     package_data={'autogen': ['import2pypi.txt']},
     include_package_data=True,

@@ -26,6 +26,7 @@ def subprocess_run(cmd, verbose=True):
     if isinstance(cmd, str):
         cmd = shlex.split(cmd)
     try:
+        log.info("here")
         result = subprocess.run(
             cmd, universal_newlines=True, check=True, capture_output=True
         )
