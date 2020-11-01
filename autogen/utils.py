@@ -26,11 +26,10 @@ def subprocess_run(cmd, verbose=True):
     if isinstance(cmd, str):
         cmd = shlex.split(cmd)
     try:
-        result = subprocess.run(
-            cmd, universal_newlines=True, check=True, capture_output=True
-        )
+        result = subprocess.run(cmd, text=True, check=True, capture_output=True)
     except:
-        result = subprocess.run(cmd, universal_newlines=True, check=True)
+        # python3.6
+        result = subprocess.run(cmd, universal_newlines=True)
     return result.stdout
 
 
