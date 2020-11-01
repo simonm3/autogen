@@ -29,7 +29,7 @@ def subprocess_run(cmd, verbose=True):
         result = subprocess.run(cmd, text=True, check=True, capture_output=True)
     except:
         # python3.6
-        result = subprocess.run(cmd, universal_newlines=True)
+        result = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE)
     return result.stdout
 
 
