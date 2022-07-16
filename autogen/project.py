@@ -139,7 +139,7 @@ class Project:
 
         # release to pypi
         subprocess_run("python setup.py clean --all bdist_wheel")
-        subprocess_run(f"twine upload dist/*{version}*")
+        subprocess_run(f"twine upload --config-file ~/.pypi/creds dist/*{version}*")
 
     def create_conda(self):
         """ todo release to conda """
