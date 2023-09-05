@@ -28,6 +28,7 @@ if True:
 if sys.platform != "win32":
     print("warning. must install pypiwin32")
 params["install_requires"].remove("pypiwin32")
+params["install_requires"].append("twine")
 
 # enable command line
 params.update(entry_points={"console_scripts": [
