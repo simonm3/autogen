@@ -9,7 +9,7 @@ from setuptools import setup
 params = dict(
     name='autogen',
     description='Automate development tasks',
-    version='1.0.15',
+    version='1.0.16',
     url='https://github.com/simonm3/autogen.git',
     install_requires=['PyYAML', 'autopep8',
                       'docopt', 'pypiwin32', 'setuptools'],
