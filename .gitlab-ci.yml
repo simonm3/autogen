@@ -6,7 +6,7 @@ pages:
     # setup
     - apt-get update
     - apt-get install -y make pandoc git
-    - pip install autogen sphinx nbsphinx sphinx_rtd_theme
+    - pip install autop sphinx nbsphinx sphinx_rtd_theme
 
     # make docs
     - cd docs

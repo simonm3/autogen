@@ -6,7 +6,7 @@ from datetime import datetime
 from glob import glob
 from os.path import join
 
-from autogen import Project, utils
+from autop import Project, utils
 
 
 def clean_rst():

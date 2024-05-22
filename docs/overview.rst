@@ -12,7 +12,7 @@ Installation
 
 To install::
 
-    pip install autogen
+    pip install autop
 
 Usage
 =====
@@ -22,7 +22,7 @@ Create Documentation
 
 To configure a project to automatically create and publish html documentation every commit::
 
-    autogen -d
+    autop -d
 
 To create and publish html documentation on gitlab pages:
 
@@ -63,7 +63,7 @@ Create Setup.py
 
 To create setup.py::
 
-    autogen -s
+    autop -s
 
 This will have the following defaults:
 
@@ -91,6 +91,6 @@ Create a release
 To create a release::
 
     git commit. it will raise an exception if there are outstanding commits.
-    autogen -M|-m|-p
+    autop -M|-m|-p
 
 This updates the appropriate version (major.minor.patch); recreates setup.py; uploads to git and pypi

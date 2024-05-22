@@ -8,6 +8,6 @@ Installation
 
 To install::
 
-    pip install autogen
+    pip install autop
 
-For full documentation see https://simonm3.gitlab.io/autogen/index.html
+For full documentation see https://simonm3.gitlab.io/autop/index.html
